@@ -8,6 +8,22 @@ function CartPage() {
 
   const addToCart = useCartStore((state) => state.addToCart);
 
+  // here we couldn't do export const becasue this is a variable not function. that's why to be reused
+  // in all compoennets without recalculate everything --> hre we move this but as function to filme called Selectors.
+  
+  const totalPrice = cart.reduce(
+    (total, item) => {
+      return total + item.price * item.quantity;
+    },
+    0
+  );
+
+  const totalItems = cart.reduce(
+    (total, item) => {
+      return total + item.quantity;
+    },
+    0
+  );
   return (
     <div>
 
@@ -23,7 +39,12 @@ function CartPage() {
       >
         Add MacBook
       </button>
+      
+      <p>Total Items : {totalItems}</p>
 
+      <p>Total Price : ${totalPrice}</p>
+
+      <hr />
       <h1>Shopping Cart</h1>
       {cart.map((item) => (
         <CartItemCard

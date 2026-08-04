@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useCartStore } from "../store/cartStore";
+import CartItemCard from "../components/CartItemCard";
 
 function CartPage() {
   const cart = useCartStore((state) => state.cart);
@@ -25,12 +26,10 @@ function CartPage() {
 
       <h1>Shopping Cart</h1>
       {cart.map((item) => (
-        <div key={item.id}>
-          <h3>{item.title}</h3>
-          <p>${item.price}</p>
-          <p>Quantity : {item.quantity}</p>
-          <hr />
-        </div>
+        <CartItemCard
+          item={item}
+          key={item.id}
+        />
       ))}
     </div>
   );

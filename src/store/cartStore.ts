@@ -6,6 +6,14 @@ interface CartStore {
   cart: CartItem[];
 
   addToCart: (product: Product) => void;
+
+  increaseQuantity: (id: number) => void;
+
+  decreaseQuantity: (id: number) => void;
+
+  removeFromCart: (id: number) => void;
+
+  clearCart: () => void;
 }
 
 export const useCartStore = create<CartStore>(
@@ -48,6 +56,59 @@ export const useCartStore = create<CartStore>(
                 quantity: 1,
               },
             ],
+          };
+        });
+      },
+      increaseQuantity: (id) => {
+        set((state) => ({
+          cart: state.cart.map((item) =>
+            item.id === id
+              ? {
+                  ...item,
+                  quantity: item.quantity + 1,
+                }
+              : item
+          ),
+        }));
+        
+      },
+      removeFromCart: (id) => {
+        set((state) => ({
+          cart: state.cart.filter((item) => item.id !== id),
+        }));
+      },
+      clearCart: () => {
+        set({
+          cart: [],
+        });
+      },
+      decreaseQuantity: (id) => {
+        set((state) => {
+          const item = state.cart.find(
+            (item) => item.id === id
+          );
+
+          if (!item) {
+            return state;
+          }
+
+          if (item.quantity === 1) {
+            return {
+              cart: state.cart.filter(
+                (item) => item.id !== id
+              ),
+            };
+          }
+
+          return {
+            cart: state.cart.map((item) =>
+              item.id === id
+                ? {
+                  ...item,
+                  quantity: item.quantity - 1,
+                }
+                : item
+            ),
           };
         });
       },

@@ -1,7 +1,21 @@
+import { useEffect } from "react";
 import { useCartStore } from "../store/cartStore";
 
 function CartPage() {
   const cart = useCartStore((state) => state.cart);
+  console.log(cart);
+
+  const addToCart = useCartStore((state) => state.addToCart);
+
+  useEffect(() => {
+    addToCart({
+      id: 2,
+      title: "MacBook2",
+      price: 3000,
+      image: "https://picsum.photos/200?1",
+    });
+  }, []);
+
   console.log(cart);
 
   return (

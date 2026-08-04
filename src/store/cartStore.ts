@@ -7,7 +7,7 @@ interface CartStore {
   addToCart: (product: Product) => void;
 }
 
-export const useCartStore = create<CartStore>(() => ({
+export const useCartStore = create<CartStore>((set) => ({
   cart: [
     {
       id: 1,
@@ -16,20 +16,36 @@ export const useCartStore = create<CartStore>(() => ({
       image: "https://picsum.photos/200?1",
       quantity: 1,
     },
-    {
-      id: 2,
-      title: "iPhone 16",
-      price: 1200,
-      image: "https://picsum.photos/200?2",
-      quantity: 2,
-    },
-    {
-      id: 3,
-      title: "AirPods Pro",
-      price: 300,
-      image: "https://picsum.photos/200?3",
-      quantity: 1,
-    },
   ],
-  addToCart: () => {}
+   addToCart: (product) => {
+    // here set should comes from params of callabck function of create() -> go above
+    set((state) => {
+      const existingItem = state.cart.find(
+        (item) => item.id === product.id
+      );
+
+      if (existingItem) {
+        return {
+          cart: state.cart.map((item) =>
+            item.id === product.id
+              ? {
+                  ...item,
+                  quantity: item.quantity + 1,
+                }
+              : item
+          ),
+        };
+      }
+
+      return {
+        cart: [
+          ...state.cart,
+          {
+            ...product,
+            quantity: 1,
+          },
+        ],
+      };
+    });
+  },
 }));

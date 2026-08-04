@@ -1,9 +1,10 @@
+import CartPage from "./pages/CartPage"
 
 function App() {
 
   return (
     <>
-      <h1>Hello</h1>
+      <CartPage />
     </>
   )
 }

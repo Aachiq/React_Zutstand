@@ -7,19 +7,22 @@ function CartPage() {
 
   const addToCart = useCartStore((state) => state.addToCart);
 
-  useEffect(() => {
-    addToCart({
-      id: 2,
-      title: "MacBook2",
-      price: 3000,
-      image: "https://picsum.photos/200?1",
-    });
-  }, []);
-
-  console.log(cart);
-
   return (
     <div>
+
+      <button
+        onClick={() =>
+          addToCart({
+            id: 2,
+            title: "MacBook& ",
+            price: 3211,
+            image: "https://picsum.photos/200?1",
+          })
+        }
+      >
+        Add MacBook
+      </button>
+
       <h1>Shopping Cart</h1>
       {cart.map((item) => (
         <div key={item.id}>

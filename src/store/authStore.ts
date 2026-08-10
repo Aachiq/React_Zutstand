@@ -44,10 +44,22 @@ export const useAuthStore = create<AuthStore>(
         });
       },
 
-      logout: () => {
+      logout: async () => {
+
+        const response = await fetch("http://localhost:3000/auth/logout",{
+                method: "POST",
+                // here we send token from cookies without authorization bearer token
+                credentials: "include",
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Logout failed");
+        }
+
         set({
-            user: null
-        })
+            user: null,
+        });
       },
       setUser: (userData) => {
         set({

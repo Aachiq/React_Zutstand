@@ -45,7 +45,7 @@ function CartPage() {
       <p>Total Price : ${totalPrice}</p>
 
       <hr />
-      <h1>Shopping Cart</h1>
+      <h2>Shopping Cart</h2>
       {cart.map((item) => (
         <CartItemCard
           item={item}

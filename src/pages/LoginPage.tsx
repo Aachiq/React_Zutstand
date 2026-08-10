@@ -24,13 +24,13 @@ function LoginPage() {
       // and finally take both success of try() when it finished and catch()
 
     } finally{
-      setIsLoading(false);
+        setIsLoading(false)
     }
   };
 
  return (
     <div>
-      <h1>Login</h1>
+      <h3>Zustand Login</h3>
 
       <input
         type="email"
@@ -50,9 +50,11 @@ function LoginPage() {
         onClick={handleLogin}
         disabled={isLoading}
       >
-        {isLoading
+        {/* {isLoading
           ? "Logging in..."
-          : "Login"}
+          :  */}
+          "Login"
+          {/* } */}
       </button>
     </div>
   );

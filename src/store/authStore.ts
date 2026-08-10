@@ -1,65 +1,31 @@
 import { create } from "zustand";
 import type { User } from "../types/auth";
+import { devtools, persist } from "zustand/middleware";
 
 interface AuthStore {
    user: User | null;
-   login: (email: string, password: string) => Promise<void>;
+   login: () => void;
    logout: () => void;
    setUser: (user: User | null) => void;
 }
 export const useAuthStore = create<AuthStore>(
-    (set) => ({
-      user: null,
-      login: async (email, password) => {
-        const response = await fetch("http://localhost:3000/auth/login",{
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error("Invalid credentials");
-        }
-        // backend login send this object without token becasue in backend there is res.cookie("tokanValue") with http-only:
-        // front won't use (Header+Authorization Bearer) -> it will use "credentials: "include" & backend will receive token with (req.coockie)
-        // req.cookies.tokanValue() not req.headers.authorization
-        // {
-        //     "user": {
-        //         "id": 1,
-        //         "name": "Elhocine",
-        //         "email": "test@test.com"
-        //     }
-        // }
-
-        const data = await response.json();
-
+  devtools(
+    persist(
+        (set) => ({
+      user: {},
+      login: () => {
         set({
-            user: data.user,
-        });
+            user:{
+                id:1,
+                name:"Elhocine",
+                email:"elhocine@gmail.com"
+            }
+        })
       },
-
-      logout: async () => {
-
-        const response = await fetch("http://localhost:3000/auth/logout",{
-                method: "POST",
-                // here we send token from cookies without authorization bearer token
-                credentials: "include",
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error("Logout failed");
-        }
-
+      logout: () => {
         set({
-            user: null,
-        });
+            user: null
+        })
       },
       setUser: (userData) => {
         set({
@@ -67,5 +33,9 @@ export const useAuthStore = create<AuthStore>(
         })
       }
     }),
+    {
+      name: "auth-store",
+    }
+    )
   )
-;
+);

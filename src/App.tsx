@@ -1,16 +1,48 @@
-import Navbar from "./components/Navbar"
-import CartPage from "./pages/CartPage"
-import LoginPage from "./pages/LoginPage"
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Outlet,
+} from "react-router-dom";
 
-function App() {
+import LoginPage from "./pages/LoginPage";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Home from "./pages/Home";
+import Dashboard from "./pages/Dashboard";
+import Profile from "./pages/Profile";
+import Navbar from "./components/Navbar";
 
+function MainLayout() {
   return (
     <>
-      <Navbar/>
-      <CartPage />
-      <LoginPage/>
+      <Navbar />
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default App
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+
+        {/* Pages without Navbar */}
+        <Route path="/login" element={<LoginPage />}  />
+
+        {/* Pages with Navbar */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<Home />} />
+
+          {/* Protected pages */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+          </Route>
+        </Route>
+
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default App;

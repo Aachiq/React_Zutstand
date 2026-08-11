@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 
 function Navbar() {
@@ -26,6 +26,11 @@ function Navbar() {
                         <button onClick={() => navigate('/login')}> Login </button>
                     )
             }
+            {user?.role === "admin" && (
+                <Link to="/admin-panel">
+                    Admin Panel
+                </Link>
+            )}
         </nav>
     );
 }

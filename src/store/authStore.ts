@@ -18,7 +18,8 @@ export const useAuthStore = create<AuthStore>(
             user:{
                 id:1,
                 name:"Elhocine",
-                email:"elhocine@gmail.com"
+                email:"elhocine@gmail.com",
+                role: 'admin'
             }
         })
       },
